@@ -12,7 +12,12 @@ const tiers = [
       '24 hours monthly content limit',
       'Basic learning resources'
     ],
-    color: 'gray'
+    color: 'gray',
+    bgColor: 'bg-gray-100',
+    buttonBg: 'bg-gray-600',
+    buttonHover: 'hover:bg-gray-700',
+    accentColor: 'text-gray-600',
+    checkColor: 'text-gray-500'
   },
   {
     name: 'Gray-Green',
@@ -24,12 +29,17 @@ const tiers = [
       '24 hours monthly content',
       'Recorded sessions access'
     ],
-    color: 'green'
+    color: 'green',
+    bgColor: 'bg-green-50',
+    buttonBg: 'bg-green-600',
+    buttonHover: 'hover:bg-green-700',
+    accentColor: 'text-green-600',
+    checkColor: 'text-green-500'
   },
   {
     name: 'Green',
     price: 50,
-    popular: true,
+    recommended: true,
     features: [
       'All Gray-Green features',
       '8 hours of live content',
@@ -37,7 +47,12 @@ const tiers = [
       'Group lectures (30 students)',
       'Enhanced learning tools'
     ],
-    color: 'emerald'
+    color: 'emerald',
+    bgColor: 'bg-emerald-100',
+    buttonBg: 'bg-emerald-600',
+    buttonHover: 'hover:bg-emerald-700',
+    accentColor: 'text-emerald-600',
+    checkColor: 'text-emerald-500'
   },
   {
     name: 'Gold',
@@ -49,7 +64,12 @@ const tiers = [
       'Early content access',
       'Live classes with Q&A'
     ],
-    color: 'yellow'
+    color: 'yellow',
+    bgColor: 'bg-yellow-50',
+    buttonBg: 'bg-yellow-600',
+    buttonHover: 'hover:bg-yellow-700',
+    accentColor: 'text-yellow-600',
+    checkColor: 'text-yellow-500'
   }
 ];
 
@@ -58,7 +78,7 @@ export default function PricingSection() {
     <div className="bg-gray-50 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">Pricing</h2>
+          <h2 className="text-base font-semibold leading-7 text-gray-600">Pricing</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Choose your learning journey
           </p>
@@ -70,34 +90,42 @@ export default function PricingSection() {
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`rounded-3xl p-8 ring-1 ring-gray-200 ${
-                tier.popular ? 'bg-gray-900 text-white ring-gray-900' : 'bg-white'
-              }`}
+              className={`relative flex flex-col rounded-3xl p-8 ${tier.bgColor} transition-all duration-200
+                ${tier.recommended ? 'ring-2 ring-emerald-500 shadow-lg scale-105' : 'ring-1 ring-gray-200 hover:shadow-md'}`}
             >
-              <h3 className={`text-lg font-semibold leading-8 ${tier.popular ? 'text-white' : 'text-gray-900'}`}>
-                {tier.name}
-              </h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span className="text-4xl font-bold tracking-tight">${tier.price}</span>
-                <span className={tier.popular ? 'text-gray-300' : 'text-gray-600'}>/month</span>
-              </p>
+              {tier.recommended && (
+                <div className="absolute -top-5 left-0 right-0 mx-auto w-fit">
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 px-4 py-1 text-sm font-medium text-emerald-700 ring-1 ring-emerald-500/20">
+                    Recommended
+                  </span>
+                </div>
+              )}
+              
+              <div>
+                <h3 className={`text-lg font-semibold leading-8 ${tier.accentColor}`}>
+                  {tier.name}
+                </h3>
+                <p className="mt-4 flex items-baseline gap-x-2">
+                  <span className={`text-4xl font-bold tracking-tight ${tier.accentColor}`}>${tier.price}</span>
+                  <span className="text-gray-600">/month</span>
+                </p>
+                <button
+                  className={`mt-4 w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm 
+                    ${tier.buttonBg} ${tier.buttonHover} transition-colors duration-200
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+                >
+                  Get started today
+                </button>
+              </div>
+
               <ul className="mt-8 space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex gap-x-3">
-                    <Check className={`h-6 w-5 flex-none ${tier.popular ? 'text-indigo-400' : 'text-indigo-600'}`} />
-                    <span className={tier.popular ? 'text-gray-300' : 'text-gray-600'}>{feature}</span>
+                    <Check className={`h-6 w-5 flex-none ${tier.checkColor}`} />
+                    <span className="text-gray-600">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button
-                className={`mt-8 w-full rounded-md px-3.5 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                  tier.popular
-                    ? 'bg-indigo-500 text-white hover:bg-indigo-400 focus-visible:outline-indigo-500'
-                    : 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
-                }`}
-              >
-                Get started today
-              </button>
             </div>
           ))}
         </div>
@@ -105,7 +133,7 @@ export default function PricingSection() {
           <p className="text-base font-semibold text-gray-600">
             Need more personalized attention?
           </p>
-          <button className="mt-4 inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <button className="mt-4 inline-flex items-center rounded-md bg-gray-600 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
             Add One-on-One Sessions ($50/hr)
           </button>
         </div>
